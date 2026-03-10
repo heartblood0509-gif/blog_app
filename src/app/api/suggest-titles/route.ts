@@ -2,6 +2,8 @@ import { titleSchema } from "@/lib/validations";
 import { getGeminiClient } from "@/lib/gemini";
 import { buildTitlePrompt } from "@/lib/prompts";
 
+export const maxDuration = 60;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

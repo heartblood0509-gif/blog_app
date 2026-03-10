@@ -2,6 +2,8 @@ import { analyzeSchema } from "@/lib/validations";
 import { getGeminiClient } from "@/lib/gemini";
 import { buildAnalysisPrompt } from "@/lib/prompts";
 
+export const maxDuration = 60;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Check, RefreshCw, Loader2, PenLine } from "lucide-react";
+import { Check, RefreshCw, Loader2, PenLine, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
 interface StepTitleProps {
@@ -26,11 +26,13 @@ export function StepTitle({
 }: StepTitleProps) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [customTitle, setCustomTitle] = useState("");
   const [useCustom, setUseCustom] = useState(false);
 
   const fetchSuggestions = useCallback(async () => {
     setIsLoading(true);
+    setFetchError(null);
     try {
       const res = await fetch("/api/suggest-titles", {
         method: "POST",
@@ -47,6 +49,7 @@ export function StepTitle({
       setSuggestions(data.titles || []);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "제목 추천 오류";
+      setFetchError(msg);
       toast.error(msg);
     } finally {
       setIsLoading(false);
@@ -115,6 +118,21 @@ export function StepTitle({
             <Skeleton className="h-18 w-full rounded-md" />
             <Skeleton className="h-18 w-full rounded-md" />
             <Skeleton className="h-18 w-full rounded-md" />
+          </div>
+        ) : fetchError && suggestions.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 py-6 rounded-md border border-destructive/30 bg-destructive/5">
+            <AlertCircle className="h-8 w-8 text-destructive" />
+            <p className="text-base text-destructive font-medium">제목 추천에 실패했습니다</p>
+            <p className="text-sm text-muted-foreground">{fetchError}</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 mt-1"
+              onClick={fetchSuggestions}
+            >
+              <RefreshCw className="h-4 w-4" />
+              다시 시도
+            </Button>
           </div>
         ) : (
           <div className="grid gap-3">

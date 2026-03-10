@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { crawlSchema } from "@/lib/validations";
 import { crawlUrl } from "@/lib/crawlers";
 
+export const maxDuration = 60;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
