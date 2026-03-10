@@ -37,22 +37,22 @@ const CONVERT_TABS: {
   {
     id: "youtube-longform",
     label: "유튜브 롱폼",
-    icon: <Youtube className="h-3.5 w-3.5" />,
+    icon: <Youtube className="h-4 w-4" />,
   },
   {
     id: "youtube-shortform",
     label: "유튜브 숏폼",
-    icon: <Youtube className="h-3.5 w-3.5" />,
+    icon: <Youtube className="h-4 w-4" />,
   },
   {
     id: "instagram",
     label: "인스타그램",
-    icon: <Instagram className="h-3.5 w-3.5" />,
+    icon: <Instagram className="h-4 w-4" />,
   },
   {
     id: "threads",
     label: "쓰레드",
-    icon: <MessageCircle className="h-3.5 w-3.5" />,
+    icon: <MessageCircle className="h-4 w-4" />,
   },
 ];
 
@@ -178,33 +178,33 @@ export function StepGenerate({
   };
 
   return (
-    <div className="space-y-5">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-bold mb-2">글 생성</h2>
-        <p className="text-sm text-muted-foreground">
+    <div className="space-y-6">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl sm:text-3xl font-extrabold mb-3">글 생성</h2>
+        <p className="text-base sm:text-lg text-muted-foreground">
           설정한 내용을 바탕으로 AI가 블로그 글을 작성합니다
         </p>
       </div>
 
       {/* Summary of settings */}
-      <div className="rounded-md border bg-muted/30 p-4 space-y-2 max-w-lg mx-auto">
-        <div className="grid grid-cols-[80px_1fr] gap-1 text-sm">
+      <div className="rounded-md border bg-muted/30 p-5 space-y-2 max-w-lg mx-auto">
+        <div className="grid grid-cols-[90px_1fr] gap-1.5 text-base">
           <span className="text-muted-foreground">제목</span>
-          <span className="font-medium">{selectedTitle}</span>
+          <span className="font-semibold">{selectedTitle}</span>
           <span className="text-muted-foreground">주제</span>
-          <span className="font-medium">{settings.topic}</span>
+          <span className="font-semibold">{settings.topic}</span>
           <span className="text-muted-foreground">키워드</span>
-          <span className="font-medium">{settings.keywords}</span>
+          <span className="font-semibold">{settings.keywords}</span>
           {settings.productName && (
             <>
               <span className="text-muted-foreground">제품명</span>
-              <span className="font-medium">{settings.productName}</span>
+              <span className="font-semibold">{settings.productName}</span>
             </>
           )}
           {settings.productAdvantages && (
             <>
               <span className="text-muted-foreground">제품 장점</span>
-              <span className="font-medium truncate">
+              <span className="font-semibold truncate">
                 {settings.productAdvantages}
               </span>
             </>
@@ -212,13 +212,13 @@ export function StepGenerate({
           {settings.requirements && (
             <>
               <span className="text-muted-foreground">요구사항</span>
-              <span className="font-medium truncate">
+              <span className="font-semibold truncate">
                 {settings.requirements}
               </span>
             </>
           )}
           <span className="text-muted-foreground">글자 수</span>
-          <span className="font-medium">
+          <span className="font-semibold">
             {CHAR_RANGE_LABELS[settings.charCountRange] || settings.charCountRange}
           </span>
         </div>
@@ -229,9 +229,9 @@ export function StepGenerate({
         {!generatedContent && !isGenerating && (
           <Button
             onClick={handleGenerate}
-            className="gap-2 bg-green-600 hover:bg-green-700"
+            className="gap-2 bg-green-600 hover:bg-green-700 text-base px-6 py-2.5"
           >
-            <Wand2 className="h-4 w-4" />
+            <Wand2 className="h-5 w-5" />
             블로그 글 생성
           </Button>
         )}
@@ -277,10 +277,10 @@ export function StepGenerate({
         <>
           <Separator />
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-center">
+            <h3 className="text-xl font-bold text-center">
               콘텐츠 변환
             </h3>
-            <p className="text-sm text-muted-foreground text-center">
+            <p className="text-base text-muted-foreground text-center">
               생성된 블로그 글을 다른 플랫폼에 맞게 변환합니다
             </p>
 
@@ -300,7 +300,7 @@ export function StepGenerate({
                   <TabsTrigger
                     key={tab.id}
                     value={tab.id}
-                    className="gap-1 text-xs sm:text-sm"
+                    className="gap-1.5 text-sm sm:text-base"
                   >
                     {tab.icon}
                     <span className="hidden sm:inline">{tab.label}</span>
@@ -339,7 +339,7 @@ export function StepGenerate({
                   {convertResults[tab.id] && (
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">
+                        <span className="text-base font-semibold">
                           {tab.label} 변환 결과
                         </span>
                         <div className="flex gap-2">
@@ -377,8 +377,8 @@ export function StepGenerate({
                   {/* Not yet converted */}
                   {!convertResults[tab.id] &&
                     !(isConverting && activeConvertTab === tab.id) && (
-                      <div className="flex flex-col items-center justify-center py-8 gap-3">
-                        <p className="text-sm text-muted-foreground">
+                      <div className="flex flex-col items-center justify-center py-8 gap-4">
+                        <p className="text-base text-muted-foreground">
                           블로그 글을 {tab.label}용으로 변환합니다
                         </p>
                         <Button

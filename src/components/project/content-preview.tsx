@@ -23,15 +23,17 @@ export function ContentPreview({ content, isLoading }: ContentPreviewProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // 마크다운 기호 제거 후 순수 텍스트만 카운트
+  // 마크다운 기호만 제거 후 순수 텍스트 카운트 (네이버 글자수세기와 동일한 방식)
   const plainText = content
     ? content
-        .replace(/^#{1,6}\s+/gm, "")   // 헤더 마크다운
-        .replace(/\*\*(.+?)\*\*/g, "$1") // 볼드
-        .replace(/\*(.+?)\*/g, "$1")     // 이탤릭
-        .replace(/^[-*]\s+/gm, "")       // 리스트 마커
-        .replace(/^>\s+/gm, "")          // 인용
-        .replace(/\[이미지:.*?\]/g, "")  // 이미지 플레이스홀더
+        .replace(/^#{1,6}\s+/gm, "")          // 헤더 마크다운 (#, ## 등)
+        .replace(/\*\*\*([\s\S]+?)\*\*\*/g, "$1") // 볼드+이탤릭
+        .replace(/\*\*([\s\S]+?)\*\*/g, "$1")     // 볼드
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "$1") // 이탤릭 (볼드와 혼동 방지)
+        .replace(/^[-*+]\s+/gm, "")           // 비순서 리스트 마커
+        .replace(/^\d+\.\s+/gm, "")           // 순서 리스트 마커 (1. 2. 등)
+        .replace(/^>\s?/gm, "")               // 인용
+        .replace(/~~([\s\S]+?)~~/g, "$1")      // 취소선
     : "";
   const charCountWithSpaces = plainText.length;
   const charCountNoSpaces = plainText.replace(/\s/g, "").length;
@@ -100,10 +102,40 @@ export function ContentPreview({ content, isLoading }: ContentPreviewProps) {
         </div>
       </div>
 
-      <ScrollArea className="h-[400px] rounded-md border bg-muted/30 p-4">
+      <ScrollArea className="h-[500px] rounded-md border bg-muted/30 p-5">
         {viewMode === "preview" ? (
           <div className="prose prose-sm dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ children }) => (
+                  <h1 className="text-2xl sm:text-3xl font-extrabold mt-2 mb-5 pb-3 border-b leading-tight">
+                    {children}
+                  </h1>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="text-xl sm:text-2xl font-bold mt-8 mb-3 leading-snug">
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 leading-snug">
+                    {children}
+                  </h3>
+                ),
+                p: ({ children }) => (
+                  <p className="text-base leading-relaxed mb-3">{children}</p>
+                ),
+                li: ({ children }) => (
+                  <li className="text-base leading-relaxed">{children}</li>
+                ),
+                strong: ({ children }) => (
+                  <strong className="font-bold text-foreground">{children}</strong>
+                ),
+              }}
+            >
+              {content}
+            </ReactMarkdown>
           </div>
         ) : (
           <pre className="text-sm whitespace-pre-wrap font-mono">{content}</pre>

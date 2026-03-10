@@ -82,29 +82,29 @@ export function StepTitle({
   };
 
   return (
-    <div className="space-y-5">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-bold mb-2">제목 선택</h2>
-        <p className="text-sm text-muted-foreground">
+    <div className="space-y-6">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl sm:text-3xl font-extrabold mb-3">제목 선택</h2>
+        <p className="text-base sm:text-lg text-muted-foreground">
           AI가 추천한 제목 중 하나를 선택하거나 직접 입력하세요
         </p>
       </div>
 
       {/* AI Suggestions */}
-      <div className="max-w-lg mx-auto space-y-3">
+      <div className="max-w-lg mx-auto space-y-4">
         <div className="flex items-center justify-between">
-          <Label className="text-sm font-medium">AI 추천 제목</Label>
+          <Label className="text-base font-semibold">AI 추천 제목</Label>
           <Button
             variant="outline"
             size="sm"
-            className="gap-1.5 h-7 text-xs"
+            className="gap-1.5 text-sm"
             onClick={fetchSuggestions}
             disabled={isLoading}
           >
             {isLoading ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <RefreshCw className="h-3 w-3" />
+              <RefreshCw className="h-4 w-4" />
             )}
             다시 추천
           </Button>
@@ -112,12 +112,12 @@ export function StepTitle({
 
         {isLoading && suggestions.length === 0 ? (
           <div className="space-y-3">
-            <Skeleton className="h-16 w-full rounded-md" />
-            <Skeleton className="h-16 w-full rounded-md" />
-            <Skeleton className="h-16 w-full rounded-md" />
+            <Skeleton className="h-18 w-full rounded-md" />
+            <Skeleton className="h-18 w-full rounded-md" />
+            <Skeleton className="h-18 w-full rounded-md" />
           </div>
         ) : (
-          <div className="grid gap-2">
+          <div className="grid gap-3">
             {suggestions.map((title, index) => {
               const isSelected = !useCustom && selectedTitle === title;
               return (
@@ -130,22 +130,22 @@ export function StepTitle({
                   }`}
                   onClick={() => handleSelectSuggestion(title)}
                 >
-                  <CardContent className="p-3 flex items-center gap-3">
+                  <CardContent className="p-4 flex items-center gap-3">
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${
                         isSelected
                           ? "bg-primary text-primary-foreground"
                           : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {isSelected ? (
-                        <Check className="h-3.5 w-3.5" />
+                        <Check className="h-4 w-4" />
                       ) : (
                         index + 1
                       )}
                     </div>
                     <span
-                      className={`text-sm ${isSelected ? "font-medium" : ""}`}
+                      className={`text-base ${isSelected ? "font-semibold" : ""}`}
                     >
                       {title}
                     </span>
@@ -157,12 +157,12 @@ export function StepTitle({
         )}
 
         {/* Custom title input */}
-        <div className="pt-3 space-y-2">
+        <div className="pt-4 space-y-2">
           <Label
             htmlFor="customTitle"
-            className="text-sm font-medium flex items-center gap-1.5"
+            className="text-base font-semibold flex items-center gap-2"
           >
-            <PenLine className="h-3.5 w-3.5" />
+            <PenLine className="h-4 w-4" />
             직접 입력
           </Label>
           <Input
@@ -170,19 +170,19 @@ export function StepTitle({
             placeholder="원하는 제목을 직접 입력하세요"
             value={customTitle}
             onChange={(e) => handleCustomTitleChange(e.target.value)}
-            className={
+            className={`text-base ${
               useCustom ? "border-primary ring-1 ring-primary/20" : ""
-            }
+            }`}
           />
           {useCustom && customTitle.trim() && (
-            <p className="text-xs text-primary font-medium">
+            <p className="text-sm text-primary font-medium">
               직접 입력한 제목이 사용됩니다
             </p>
           )}
         </div>
 
         {selectedTitle && (
-          <div className="pt-2 text-sm text-center text-green-500 font-medium">
+          <div className="pt-2 text-base text-center text-green-500 font-semibold">
             제목이 선택되었습니다. 다음 단계로 이동하세요.
           </div>
         )}

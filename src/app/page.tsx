@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { StepAnalysis } from "@/components/project/step-analysis";
+import { StepAnalysis, type AnalysisMode } from "@/components/project/step-analysis";
 import { StepSettings, type GenerationSettings } from "@/components/project/step-settings";
 import { StepTitle } from "@/components/project/step-title";
 import { StepGenerate } from "@/components/project/step-generate";
@@ -18,6 +18,7 @@ const STEPS = [
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [analysisMode, setAnalysisMode] = useState<AnalysisMode>(null);
   const [analysisResult, setAnalysisResult] = useState("");
   const [referenceText, setReferenceText] = useState("");
   const [selectedTitle, setSelectedTitle] = useState("");
@@ -47,9 +48,9 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-3xl">
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
       {/* Stepper indicator */}
-      <div className="mb-8">
+      <div className="mb-10">
         <div className="flex items-center justify-between">
           {STEPS.map((step, index) => {
             const isCompleted = index < currentStep;
@@ -58,7 +59,7 @@ export default function Home() {
               <div key={step.label} className="flex items-center flex-1 last:flex-initial">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium transition-colors ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-sm sm:text-base font-bold transition-colors ${
                       isCompleted
                         ? "bg-green-600 text-white"
                         : isCurrent
@@ -66,11 +67,11 @@ export default function Home() {
                           : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {isCompleted ? <Check className="h-4 w-4 sm:h-5 sm:w-5" /> : index + 1}
+                    {isCompleted ? <Check className="h-5 w-5 sm:h-6 sm:w-6" /> : index + 1}
                   </div>
-                  <div className="mt-2 text-center">
+                  <div className="mt-2.5 text-center">
                     <p
-                      className={`text-xs sm:text-sm font-medium ${
+                      className={`text-sm sm:text-base font-semibold ${
                         isCurrent
                           ? "text-foreground"
                           : "text-muted-foreground"
@@ -78,14 +79,14 @@ export default function Home() {
                     >
                       {step.label}
                     </p>
-                    <p className="text-xs text-muted-foreground hidden sm:block">
+                    <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block mt-0.5">
                       {step.description}
                     </p>
                   </div>
                 </div>
                 {index < STEPS.length - 1 && (
                   <div
-                    className={`flex-1 h-0.5 mx-2 sm:mx-3 mt-[-1.5rem] ${
+                    className={`flex-1 h-0.5 mx-2 sm:mx-4 mt-[-2rem] ${
                       index < currentStep ? "bg-green-600" : "bg-muted"
                     }`}
                   />
@@ -98,9 +99,13 @@ export default function Home() {
 
       {/* Step content */}
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="p-6 sm:p-8">
           {currentStep === 0 && (
-            <StepAnalysis onComplete={handleAnalysisComplete} />
+            <StepAnalysis
+              onComplete={handleAnalysisComplete}
+              mode={analysisMode}
+              onModeChange={setAnalysisMode}
+            />
           )}
           {currentStep === 1 && (
             <StepSettings settings={settings} onChange={setSettings} />
@@ -126,18 +131,24 @@ export default function Home() {
       </Card>
 
       {/* Navigation buttons */}
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex items-center justify-between mt-8">
         <Button
           variant="outline"
-          onClick={() => setCurrentStep((s) => s - 1)}
-          disabled={currentStep === 0}
-          className="gap-1.5"
+          onClick={() => {
+            if (currentStep === 0 && analysisMode !== null) {
+              setAnalysisMode(null);
+            } else {
+              setCurrentStep((s) => s - 1);
+            }
+          }}
+          disabled={currentStep === 0 && analysisMode === null}
+          className="gap-2 text-base px-5 py-2.5"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-5 w-5" />
           이전
         </Button>
 
-        <span className="text-sm text-muted-foreground">
+        <span className="text-base font-medium text-muted-foreground">
           {currentStep + 1} / {STEPS.length}
         </span>
 
@@ -145,13 +156,13 @@ export default function Home() {
           <Button
             onClick={() => setCurrentStep((s) => s + 1)}
             disabled={!canGoNext()}
-            className="gap-1.5"
+            className="gap-2 text-base px-5 py-2.5"
           >
             다음
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         ) : (
-          <div className="w-[80px]" />
+          <div className="w-[100px]" />
         )}
       </div>
     </div>

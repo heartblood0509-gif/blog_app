@@ -30,14 +30,16 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-type AnalysisMode = "template" | "crawl" | null;
+export type AnalysisMode = "template" | "crawl" | null;
 
 interface StepAnalysisProps {
   onComplete: (analysisResult: string, referenceText: string) => void;
+  mode: AnalysisMode;
+  onModeChange: (mode: AnalysisMode) => void;
 }
 
-export function StepAnalysis({ onComplete }: StepAnalysisProps) {
-  const [mode, setMode] = useState<AnalysisMode>(null);
+export function StepAnalysis({ onComplete, mode, onModeChange }: StepAnalysisProps) {
+  const setMode = onModeChange;
   const [referenceText, setReferenceText] = useState("");
   const [platform, setPlatform] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -130,25 +132,25 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
   // Mode selection
   if (!mode) {
     return (
-      <div className="space-y-4">
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-bold mb-2">분석 방식을 선택하세요</h2>
-          <p className="text-sm text-muted-foreground">
+      <div className="space-y-6">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-3">분석 방식을 선택하세요</h2>
+          <p className="text-base sm:text-lg text-muted-foreground">
             저장된 템플릿을 활용하거나, 레퍼런스 글을 직접 분석할 수 있습니다
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2">
           <Card
             className="cursor-pointer hover:border-blue-500/50 transition-colors group"
             onClick={() => setMode("template")}
           >
-            <CardContent className="p-6 text-center">
-              <div className="mx-auto w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
-                <FileText className="h-6 w-6 text-blue-500" />
+            <CardContent className="p-8 text-center">
+              <div className="mx-auto w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mb-5 group-hover:bg-blue-500/20 transition-colors">
+                <FileText className="h-8 w-8 text-blue-500" />
               </div>
-              <h3 className="font-semibold mb-1">템플릿 활용 (추천)</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-bold mb-2">템플릿 활용 (추천)</h3>
+              <p className="text-base text-muted-foreground">
                 미리 분석된 글 스타일을 선택하여 바로 글을 생성합니다
               </p>
             </CardContent>
@@ -158,12 +160,12 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
             className="cursor-pointer hover:border-green-500/50 transition-colors group"
             onClick={() => setMode("crawl")}
           >
-            <CardContent className="p-6 text-center">
-              <div className="mx-auto w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-colors">
-                <Globe className="h-6 w-6 text-green-500" />
+            <CardContent className="p-8 text-center">
+              <div className="mx-auto w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-5 group-hover:bg-green-500/20 transition-colors">
+                <Globe className="h-8 w-8 text-green-500" />
               </div>
-              <h3 className="font-semibold mb-1">레퍼런스 글 분석</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-bold mb-2">레퍼런스 글 분석</h3>
+              <p className="text-base text-muted-foreground">
                 블로그 URL을 크롤링하거나 텍스트를 붙여넣어 AI가 분석합니다
               </p>
             </CardContent>
@@ -176,11 +178,12 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
   // Template selection mode
   if (mode === "template") {
     return (
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 mb-2">
+      <div className="space-y-5">
+        <div className="flex items-center gap-3 mb-3">
           <Button
             variant="ghost"
             size="sm"
+            className="text-base"
             onClick={() => {
               setMode(null);
               setSelectedTemplate(null);
@@ -188,7 +191,7 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
           >
             ← 돌아가기
           </Button>
-          <h3 className="font-semibold">템플릿 선택</h3>
+          <h3 className="text-lg font-bold">템플릿 선택</h3>
         </div>
 
         <div className="grid gap-3">
@@ -204,10 +207,10 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
                 }`}
                 onClick={() => handleSelectTemplate(template.id)}
               >
-                <CardContent className="p-4 flex items-center justify-between">
+                <CardContent className="p-5 flex items-center justify-between">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-medium">{template.name}</h4>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <h4 className="text-base font-semibold">{template.name}</h4>
                       {template.isBuiltIn && (
                         <Badge variant="outline" className="text-xs">
                           기본
@@ -220,19 +223,19 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="text-sm text-muted-foreground">
                       {template.description}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+                  <div className="flex items-center gap-1 flex-shrink-0 ml-3">
                     {!template.isBuiltIn && (
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
                         onClick={(e) => handleDeleteTemplate(e, template.id)}
                       >
-                        <Trash2 className="h-3.5 w-3.5" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     )}
                     <ChevronRight className="h-5 w-5 text-muted-foreground" />
@@ -244,7 +247,7 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
         </div>
 
         {selectedTemplate && (
-          <p className="text-sm text-center text-green-500 font-medium">
+          <p className="text-base text-center text-green-500 font-semibold">
             템플릿이 선택되었습니다. 다음 단계로 이동하세요.
           </p>
         )}
@@ -255,16 +258,16 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
   // Crawl/paste analysis mode
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 mb-2">
-        <Button variant="ghost" size="sm" onClick={() => setMode(null)}>
+      <div className="flex items-center gap-3 mb-3">
+        <Button variant="ghost" size="sm" className="text-base" onClick={() => setMode(null)}>
           ← 돌아가기
         </Button>
-        <h3 className="font-semibold flex items-center gap-2">
-          <BookOpen className="h-4 w-4 text-green-500" />
+        <h3 className="text-lg font-bold flex items-center gap-2">
+          <BookOpen className="h-5 w-5 text-green-500" />
           레퍼런스 글 분석
         </h3>
         {platform && (
-          <Badge variant="secondary" className="text-xs">
+          <Badge variant="secondary">
             {platform}
           </Badge>
         )}
@@ -286,7 +289,7 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
           onError={(msg) => toast.error(msg)}
           disabled={isAnalyzing}
         />
-        <span className="text-xs text-muted-foreground">
+        <span className="text-sm text-muted-foreground">
           또는 아래에 직접 텍스트를 붙여넣기
         </span>
       </div>
@@ -334,7 +337,7 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
           <Separator />
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-medium text-blue-500">분석 결과</h4>
+              <h4 className="text-base font-semibold text-blue-500">분석 결과</h4>
               {analysisResult && !isAnalyzing && (
                 <Button
                   variant="outline"
@@ -395,7 +398,7 @@ export function StepAnalysis({ onComplete }: StepAnalysisProps) {
           )}
 
           {analysisResult && !isAnalyzing && (
-            <p className="text-sm text-center text-green-500 font-medium">
+            <p className="text-base text-center text-green-500 font-semibold">
               분석이 완료되었습니다. 다음 단계로 이동하세요.
             </p>
           )}
