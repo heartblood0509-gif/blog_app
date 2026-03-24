@@ -16,87 +16,58 @@ export default function OGImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ffffff",
+          background: "linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #3b82f6 100%)",
           position: "relative",
         }}
       >
-        {/* 상단 블루 라인 */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "6px",
-            background: "linear-gradient(90deg, #2563eb, #60a5fa)",
-          }}
-        />
-
-        {/* 로고 영역 */}
+        {/* 로고 아이콘 */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "16px",
-            marginBottom: "20px",
+            justifyContent: "center",
+            width: "120px",
+            height: "120px",
+            borderRadius: "28px",
+            background: "rgba(255,255,255,0.15)",
+            marginBottom: "40px",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "64px",
-              height: "64px",
-              borderRadius: "14px",
-              background: "#2563eb",
-            }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="64"
+            height="64"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 20h9" />
-              <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontSize: "56px",
-              fontWeight: 800,
-              color: "#111827",
-              letterSpacing: "-1.5px",
-            }}
-          >
-            Blog Pick
-          </span>
+            <path d="M12 20h9" />
+            <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+          </svg>
         </div>
 
-        {/* 구분선 */}
-        <div
+        {/* 타이틀 */}
+        <span
           style={{
-            width: "60px",
-            height: "3px",
-            background: "#2563eb",
-            borderRadius: "2px",
-            marginBottom: "20px",
+            fontSize: "80px",
+            fontWeight: 800,
+            color: "#ffffff",
+            letterSpacing: "-2px",
+            marginBottom: "16px",
           }}
-        />
+        >
+          Blog Pick
+        </span>
 
         {/* 설명 */}
         <span
           style={{
-            fontSize: "24px",
-            color: "#6b7280",
+            fontSize: "32px",
+            color: "rgba(255,255,255,0.8)",
             fontWeight: 400,
-            letterSpacing: "0.5px",
           }}
         >
           블로그 & 쓰레드 자동 생성
@@ -106,9 +77,9 @@ export default function OGImage() {
         <span
           style={{
             position: "absolute",
-            bottom: "32px",
-            fontSize: "16px",
-            color: "#d1d5db",
+            bottom: "40px",
+            fontSize: "20px",
+            color: "rgba(255,255,255,0.4)",
             letterSpacing: "1px",
           }}
         >
