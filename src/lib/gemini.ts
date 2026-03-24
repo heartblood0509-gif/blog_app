@@ -34,6 +34,9 @@ export function formatGeminiError(error: unknown): string {
   if (msg.includes("403") || msg.includes("PERMISSION_DENIED")) {
     return "API 키가 유효하지 않습니다. 환경 설정을 확인해주세요.";
   }
+  if (msg.includes("503") || msg.includes("UNAVAILABLE") || msg.includes("high demand")) {
+    return "AI 서버가 일시적으로 혼잡합니다. 1~2분 후 다시 시도해주세요.";
+  }
   if (msg.includes("500") || msg.includes("INTERNAL")) {
     return "AI 서버에 일시적 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
   }
