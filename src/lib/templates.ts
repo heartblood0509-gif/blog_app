@@ -94,6 +94,73 @@ export const BUILT_IN_TEMPLATES: AnalysisTemplate[] = [
   },
 ];
 
+export const BUILT_IN_THREADS_TEMPLATES: AnalysisTemplate[] = [
+  {
+    id: "threads-tip-style",
+    name: "팁 제공형 쓰레드",
+    description:
+      "문제 제기 → 팁 제공 구조. 숫자 충격으로 시선을 잡고, 본문에서 궁금증을 유발한 뒤 고정 댓글로 해결책을 제시하는 스타일",
+    isBuiltIn: true,
+    sourceMode: "image",
+    analysisResult: `## 📝 텍스트 추출
+
+본문 텍스트와 댓글 텍스트로 구성된 2단 구조입니다.
+
+- **본문**: 핵심 정보 + 문제 제기 + 궁금증 유발
+- **고정 댓글**: 구체적 해결책 + CTA(Call-to-Action)
+
+## 📖 게시물 구조 분석
+
+### 본문의 서사 흐름
+
+총 6줄로 구성되어 있으며, 각 줄은 명확한 역할을 수행합니다.
+1줄: 핵심 정보 및 가치 제안 (구체적 숫자로 절약/효과 제시, 단점도 명시)
+2줄: 핵심 정보의 근거 제시 (문제의 원인 지적)
+3~4줄: 독자의 의심 해소 및 핵심 메시지 반복 강조
+5줄: 궁금증 유발 및 참여 유도 (해결책을 바로 공개하지 않고 호기심 자극)
+6줄: 핵심 키워드 제시 (검색 용이성 및 콘텐츠 정체성)
+
+### 댓글의 역할
+
+작성자의 고정 댓글은 본문에서 던진 질문에 대한 구체적인 해결책을 제공하는 역할을 합니다.
+플랫폼의 성격, 비용 및 혜택, 장기적 이점과 안정성까지 상세 정보를 전달합니다.
+마지막에는 프로필 링크로 연결하여 실질적인 행동(회원가입)을 유도합니다.
+
+### 본문과 댓글 사이의 정보 분리 방식
+
+- **본문(Hook & Problem)**: 독자의 주의를 끌고, 문제를 인식시킨 뒤, 해결책에 대한 궁금증을 극대화
+- **댓글(Solution & CTA)**: 본문에서 유발된 궁금증을 해소해주는 상세한 정보와 구체적인 행동 지침 제공
+
+이러한 분리 방식은 독자의 체류 시간을 늘리고 댓글 확인을 유도하여 게시물 참여도를 높이는 전형적인 소셜 미디어 전략입니다.
+
+## 📋 서사 유형
+
+**문제 제기 → 팁 제공형** — 기존 방식의 문제를 제기하고, 구체적인 팁과 방법을 제공하는 구조.
+
+**훅(Hook) 전략: 숫자 충격 (Number Shock)** — 구체적이고 강력한 숫자를 첫 문장에 제시하여 타겟 고객의 시선을 즉각적으로 사로잡습니다.
+
+## 🎨 톤 & 스타일
+
+- **말투**: 반말, 매우 높은 수준의 구어체. "~해", "~거지", "~같아", "~줄게" 등 친구에게 알려주는 듯한 친근하고 자신감 있는 어조
+- **문장 구조**: 한 문장의 길이가 짧고 간결. 핵심 메시지 단위로 줄바꿈하여 모바일 가독성 극대화
+- **이모지/특수문자**: 사용 빈도 낮음. 느낌표(!)로 강조, 댓글에서는 리스트 마커 활용
+- **해시태그**: 공식 해시태그 미사용. 본문 마지막에 키워드 역할의 단어 배치
+
+## 📸 이미지 분석
+
+- **이미지 유형**: 실제 사진 2장
+- **이미지 스타일**: 자연광 감성 여행 사진. 필터 과하지 않고 생생한 느낌
+- **이미지 역할**: 텍스트의 주장을 시각적으로 증명하고 로망을 자극. 논리적 정보 + 감성적 가치
+
+## 🔍 참여 유도 요소
+
+- **1차 CTA (Implicit)**: 본문 마지막 — "궁금하면 알려줄게" (댓글 확인 유도)
+- **2차 CTA (Explicit)**: 고정 댓글 마지막 — "프로필 링크에서 가입하여 둘러보기 가능" (행동 유도)
+- **댓글/공유 유도**: 정보의 공백(Information Gap)으로 사용자가 댓글 확인하게 유도
+- **링크 활용**: 프로필 링크(Link in Bio) 방식으로 알고리즘 페널티 회피`,
+  },
+];
+
 export function getSavedTemplates(contentType: "blog" | "threads" = "blog"): AnalysisTemplate[] {
   if (typeof window === "undefined") return [];
   try {
@@ -128,7 +195,7 @@ export function deleteTemplate(id: string, contentType: "blog" | "threads" = "bl
 
 export function getAllTemplates(contentType: "blog" | "threads" = "blog"): AnalysisTemplate[] {
   if (contentType === "threads") {
-    return getSavedTemplates("threads");
+    return [...BUILT_IN_THREADS_TEMPLATES, ...getSavedTemplates("threads")];
   }
   return [...BUILT_IN_TEMPLATES, ...getSavedTemplates("blog")];
 }

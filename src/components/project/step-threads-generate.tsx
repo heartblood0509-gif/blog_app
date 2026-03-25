@@ -277,8 +277,8 @@ export function StepThreadsGenerate({
                 </div>
                 <div className="space-y-2">
                   <span className="text-sm font-semibold">매수</span>
-                  <div className="grid grid-cols-3 gap-2">
-                    {([1, 2, 3] as const).map((count) => (
+                  <div className="grid grid-cols-2 gap-2">
+                    {([1, 2] as const).map((count) => (
                       <Button
                         key={count}
                         variant={imageCount === count ? "default" : "outline"}

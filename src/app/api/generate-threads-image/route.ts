@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     const client = getGeminiClient(clientApiKey);
 
     const images: { data: string; mimeType: string }[] = [];
-    const imageCount = Math.min(count, 3);
+    const imageCount = Math.min(count, 2);
 
     // 4:5 → Nano Banana에서 미지원 시 3:4로 대체
     const supportedRatios = ["1:1", "3:4", "4:3", "16:9", "9:16", "3:2", "2:3"];
