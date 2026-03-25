@@ -1,10 +1,14 @@
 import { getGeminiClient, formatGeminiError, withRetry } from "@/lib/gemini";
 import { buildThreadsImageGenerationPrompt } from "@/lib/prompts";
 import { Modality } from "@google/genai";
+import { rateLimit, getClientId, rateLimitResponse } from "@/lib/rate-limit";
 
 export const maxDuration = 120;
 
 export async function POST(request: Request) {
+  const { success } = rateLimit(getClientId(request), 10, 60_000);
+  if (!success) return rateLimitResponse();
+
   try {
     const body = await request.json();
     const { threadsContent, imageAnalysis, aspectRatio = "1:1", count = 1, style = "realistic", customPrompt } = body;

@@ -4,6 +4,7 @@ import {
   buildThreadsFromAnalysisPrompt,
 } from "@/lib/prompts";
 import { z } from "zod";
+import { rateLimit, getClientId, rateLimitResponse } from "@/lib/rate-limit";
 
 export const maxDuration = 120;
 
@@ -16,6 +17,9 @@ const generateThreadsSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const { success } = rateLimit(getClientId(request), 10, 60_000);
+  if (!success) return rateLimitResponse();
+
   try {
     const body = await request.json();
     const parsed = generateThreadsSchema.safeParse(body);

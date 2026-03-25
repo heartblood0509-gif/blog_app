@@ -1,10 +1,14 @@
 import { generateSchema } from "@/lib/validations";
 import { getGeminiClient, formatGeminiError, withRetry } from "@/lib/gemini";
 import { buildGenerationPrompt } from "@/lib/prompts";
+import { rateLimit, getClientId, rateLimitResponse } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
+  const { success } = rateLimit(getClientId(request), 10, 60_000);
+  if (!success) return rateLimitResponse();
+
   try {
     const body = await request.json();
     const parsed = generateSchema.safeParse(body);
