@@ -173,7 +173,7 @@ export function ApiKeySettings() {
                       <p className="text-sm font-medium text-foreground mb-1.5">2. 유료 플랜 전환 (필수)</p>
                       <div className="text-xs text-muted-foreground mb-2 space-y-1">
                         <p>블로그, 쓰레드 텍스트 생성은 <strong className="text-foreground">무료 플랜</strong>으로 사용 가능합니다.</p>
-                        <p><strong className="text-foreground">쓰레드 이미지 생성</strong>은 유료 기능입니다. (1장당 약 50원, $0.039)</p>
+                        <p><strong className="text-foreground">쓰레드 이미지 생성</strong>은 유료 기능입니다. Nano Banana 2 모델 사용 (1장당 약 90원, $0.067)</p>
                         <p>이미지 생성을 사용하려면 <strong className="text-foreground">유료 플랜 전환이 필요</strong>합니다.</p>
                       </div>
                       <ol className="list-decimal list-inside text-sm text-muted-foreground space-y-1 pl-1">

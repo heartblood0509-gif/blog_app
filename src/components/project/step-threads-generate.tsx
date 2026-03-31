@@ -237,7 +237,7 @@ export function StepThreadsGenerate({
               </p>
               {appConfig.isUser && (
                 <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
-                  이미지 생성은 유료 API 기능입니다 (1장당 약 50원, 유료 플랜 필요)
+                  Nano Banana 2 모델 사용 | 이미지 1장당 약 90원 (유료 플랜 필요)
                 </p>
               )}
             </div>

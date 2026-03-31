@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       try {
         const response = await withRetry(() =>
           client.models.generateContent({
-            model: "gemini-2.5-flash-image",
+            model: "gemini-3.1-flash-image-preview",
             contents: prompt,
             config: {
               responseModalities: [Modality.TEXT, Modality.IMAGE],
