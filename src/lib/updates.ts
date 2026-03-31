@@ -34,7 +34,6 @@ export const UPDATES: UpdateEntry[] = [
             label: "이미지 생성 모델 업그레이드",
             details: [
               "Nano Banana 2 모델로 교체 — 이미지 퀄리티 대폭 향상",
-              "최대 4K 해상도, 14종 비율 지원",
               "이미지 생성은 유료 기능 (1장당 약 90원)",
             ],
           },
